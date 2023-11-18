@@ -47,7 +47,7 @@ func Lex(input string) []Token {
 			tokens = append(tokens, Token{ArithmeticOp, word})
 		case word == "==", word == "!=", word == ">", word == "<", word == ">=", word == "<=":
 			tokens = append(tokens, Token{ComparisonOp, word})
-		case word == "&&", word == "||", word == "!":
+		case word == "YY", word == "OO", word == "!":
 			tokens = append(tokens, Token{LogicalOp, word})
 		case word == "=", word == "+=", word == "-=", word == "*=", word == "/=":
 			tokens = append(tokens, Token{AssignmentOp, word})
@@ -125,30 +125,13 @@ func isCommentLine(word string) bool {
 	return match
 }
 
+
 func isCommentBlock(word string) bool {
-	match, _ := regexp.MatchString(`^/\*.*\*/$`, word)
+	match, _ := regexp.MatchString(`^#\*.*\*#$`, word)
 	return match
 }
 
-/*
-func main() {
 
-		reader := bufio.NewReader(os.Stdin)
-
-		fmt.Println("Ingresa un valor:")
-		text, _ := reader.ReadString('\n')
-
-		//Eliminar el retorno de carro en sistemas Windows
-		text = strings.TrimRight(text, "\r\n")
-
-		//input := "else if x = 3 hola"
-		tokens := Lex(text)
-
-		for _, token := range tokens {
-			fmt.Printf("Type: %s, Value: %s\n", token.Type, token.Value)
-		}
-	}
-*/
 func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.Method == "POST" {
